@@ -1,5 +1,7 @@
 import React from 'react';
-import {ImageBackground, Text, View, StyleSheet} from 'react-native';
+import {ImageBackground, Text, View, StyleSheet, Pressable} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch, useSelector} from 'react-redux';
 import CircleIndicators from './CircleIndicators';
 
 const styles = StyleSheet.create({
@@ -42,9 +44,17 @@ const styles = StyleSheet.create({
   indicators: {
     marginLeft: 10,
   },
+  starIcon: {
+    alignSelf: 'flex-end',
+    marginTop: 10,
+    marginRight: 10,
+  },
 });
 
-const Card = ({d}) => {
+const Card = ({drill}) => {
+  const dispatch = useDispatch();
+  const favorites = useSelector(state => state.favorites);
+  const isThisFavorite = favorites.includes(drill.id);
   const getLevelText = l => {
     switch (l) {
       case 1:
@@ -55,6 +65,11 @@ const Card = ({d}) => {
         return 'Advanced';
     }
   };
+  const onFavorite = () => {
+    isThisFavorite
+      ? dispatch({type: 'REMOVE_FAV', payload: drill.id})
+      : dispatch({type: 'ADD_FAV', payload: drill.id});
+  };
   return (
     <View style={styles.card}>
       <ImageBackground
@@ -64,12 +79,22 @@ const Card = ({d}) => {
         }}
         imageStyle={styles.roundCorners}
         resizeMode="cover">
+        <View>
+          <Pressable onPress={onFavorite}>
+            <Icon
+              style={styles.starIcon}
+              name={isThisFavorite ? 'star' : 'star-outline'}
+              size={30}
+              color={isThisFavorite ? 'orange' : 'white'}
+            />
+          </Pressable>
+        </View>
         <View style={styles.cardText}>
-          <Text style={styles.cardTitle}>{d.title}</Text>
+          <Text style={styles.cardTitle}>{drill.title}</Text>
           <View style={styles.row}>
-            <Text style={styles.cartSubtitle}>{getLevelText(d.level)}</Text>
+            <Text style={styles.cartSubtitle}>{getLevelText(drill.level)}</Text>
             <View style={[styles.row, styles.indicators]}>
-              <CircleIndicators level={d.level} />
+              <CircleIndicators level={drill.level} />
             </View>
           </View>
         </View>
