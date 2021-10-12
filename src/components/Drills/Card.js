@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
 const Card = ({drill}) => {
   const dispatch = useDispatch();
-  const favorites = useSelector(state => state.favorites);
+  const favorites = useSelector(state => state.drills.favorites);
   const isThisFavorite = favorites.includes(drill.id);
   const getLevelText = l => {
     switch (l) {
