@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
 });
 
 const Filter = ({onFilter, isFavorite, setIsFavorite}) => {
-  const stateData = useSelector(state => state.data);
-  const filterSelected = useSelector(state => state.filters);
+  const stateData = useSelector(state => state.drills.data);
+  const filterSelected = useSelector(state => state.drills.filters);
   return (
     <View style={styles.row}>
       <View style={styles.filterOption}>

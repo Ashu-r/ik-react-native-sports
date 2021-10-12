@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {Text, View, StyleSheet, Pressable, ScrollView} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Card from './Card';
-import groupBy from '../utils/groupBy';
+import groupBy from '../../utils/groupBy';
 import Filter from './Filter';
 
 const data = [
@@ -46,16 +46,15 @@ const styles = StyleSheet.create({
 
 const Main = () => {
   const [isFavorite, setIsFavorite] = useState(false);
-  const stateData = useSelector(state => state.data);
-  const filters = useSelector(state => state.filters);
-  const favorites = useSelector(state => state.favorites);
+  const stateData = useSelector(state => state.drills.data);
+  const filters = useSelector(state => state.drills.filters);
+  const favorites = useSelector(state => state.drills.favorites);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({type: 'INIT_DRILLS', payload: groupBy(data, 'sport')});
   }, [dispatch]);
 
   const onFilter = k => {
-    console.log(k);
     filters.includes(k)
       ? dispatch({type: 'REMOVE_FILTER', payload: k})
       : dispatch({type: 'ADD_FILTER', payload: k});
