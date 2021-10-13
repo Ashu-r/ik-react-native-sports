@@ -39,7 +39,7 @@ const App = () => {
             <Drawer.Screen name="Sign out" component={SignOut} />
           </Drawer.Navigator>
         ) : (
-          <Stack.Navigator initialRouteName="SignUp">
+          <Stack.Navigator initialRouteName="Sign Up">
             <Stack.Screen name="Sign Up" component={SignUp} />
             <Stack.Screen name="Sign In" component={SignIn} />
           </Stack.Navigator>
@@ -52,7 +52,7 @@ const App = () => {
 const SignOut = ({navigation}) => {
   useEffect(() => {
     auth().signOut();
-    navigation.navigate('Sign In');
+    navigation.navigate('Skills');
   }, []);
   return <Text>Logging out</Text>;
 };
