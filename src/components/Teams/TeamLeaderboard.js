@@ -52,40 +52,34 @@ const LeaderboardRows = ({allData, tab}) => {
     }
   };
   const maxValue = Math.max(...data.map(d => d.value));
-  const renderItem = ({item, index}) => {
-    return (
-      <View style={styles.row}>
-        <Text style={styles.indexText}>{index + 1}</Text>
-        <Image
-          source={{
-            uri: `https://randomuser.me/api/portraits/men/${index}.jpg`,
-          }}
-          style={styles.rowsImage}
-        />
-        <View>
-          <Progress.Bar
-            color="#82c1ff"
-            borderColor="white"
-            borderRadius={0}
-            height={10}
-            progress={item.value / maxValue}
-            width={200}
-          />
-          <Text style={styles.textMuted}>{item.name}</Text>
-        </View>
-        <Text>
-          {item.value} {getValueUnit(tab)}
-        </Text>
-      </View>
-    );
-  };
   return (
-    <FlatList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={(item, index) => `${item.name}${index}`}
-      style={styles.rows}
-    />
+    <View style={styles.rows}>
+      {data.map((item, index) => (
+        <View key={index} style={styles.row}>
+          <Text style={styles.indexText}>{index + 1}</Text>
+          <Image
+            source={{
+              uri: `https://randomuser.me/api/portraits/men/${index}.jpg`,
+            }}
+            style={styles.rowsImage}
+          />
+          <View>
+            <Progress.Bar
+              color="#82c1ff"
+              borderColor="white"
+              borderRadius={0}
+              height={10}
+              progress={item.value / maxValue}
+              width={200}
+            />
+            <Text style={styles.textMuted}>{item.name}</Text>
+          </View>
+          <Text>
+            {item.value} {getValueUnit(tab)}
+          </Text>
+        </View>
+      ))}
+    </View>
   );
 };
 

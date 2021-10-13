@@ -37,7 +37,7 @@ const TrainingPieChart = ({data}) => {
     <View style={styles.row}>
       <View style={styles.legend}>
         {data.map((d, i) => (
-          <View style={styles.row}>
+          <View key={i} style={styles.row}>
             <View style={[styles.legendColor, {backgroundColor: colors[i]}]} />
             <Text style={styles.bold}>{d.totalTime}% </Text>
             <Text>{d.name}</Text>
