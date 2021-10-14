@@ -11,6 +11,7 @@ import auth from '@react-native-firebase/auth';
 import TeamMain from './src/components/Teams/TeamMain';
 import SignUp from './src/components/Authentication/SignUp';
 import SignIn from './src/components/Authentication/SignIn';
+import UserInfo from './src/components/UserInfo';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -20,8 +21,8 @@ const App = () => {
   const [user, setUser] = useState();
 
   // Handle user state changes
-  function onAuthStateChanged(user) {
-    setUser(user);
+  function onAuthStateChanged(u) {
+    setUser(u);
     if (initializing) setInitializing(false);
   }
   useEffect(() => {
@@ -36,6 +37,14 @@ const App = () => {
           <Drawer.Navigator initialRouteName="Team">
             <Drawer.Screen name="Skills" component={Main} />
             <Drawer.Screen name="Team" component={TeamMain} />
+            <Drawer.Screen
+              name="UserInfo"
+              component={UserInfo}
+              initialParams={{
+                name: user?.displayName,
+                email: user?.email,
+              }}
+            />
             <Drawer.Screen name="Sign out" component={SignOut} />
           </Drawer.Navigator>
         ) : (

@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {Button, Pressable, Text, View, StyleSheet} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
+import GoogleSignIn from './GoogleSignIn';
+import FacebookSignIn from './FacebookSignIn';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +30,10 @@ const styles = StyleSheet.create({
     color: 'red',
     paddingBottom: 10,
   },
+  signInText: {
+    fontSize: 17,
+    marginVertical: 10,
+  },
 });
 
 const SignIn = ({navigation}) => {
@@ -41,7 +47,7 @@ const SignIn = ({navigation}) => {
     }
     auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => console.log('account created'))
+      .then(() => console.log('signed in'))
       .catch(error => {
         if (error.code === 'auth/user-not-found') {
           setErrorText(
@@ -58,6 +64,9 @@ const SignIn = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
+      <GoogleSignIn />
+      <FacebookSignIn />
+      <Text style={styles.signInText}>Sign in with email</Text>
       <TextInput
         style={[styles.input]}
         value={email}
