@@ -14,14 +14,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "970148480104-4kmb2tesnuocgbab8pd4if6uikvtd45s.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.sports",
-            "certificate_hash": "2d1e149a22c79841442a57110e753bab5abed842"
-          }
-        },
-        {
           "client_id": "970148480104-cib2hl3jkfkvn84h38ia65ml9t791raf.apps.googleusercontent.com",
           "client_type": 3
         }
