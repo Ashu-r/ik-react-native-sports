@@ -1,25 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useState} from 'react';
 import {Text, View, StyleSheet, Pressable, ScrollView} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import Card from './Card';
-import groupBy from '../../utils/groupBy';
 import Filter from './Filter';
-
-const data = [
-  {id: 1, sport: 'soccer', title: 'Soccer jumping practice test', level: 1},
-  {id: 2, sport: 'soccer', title: 'Soccer jumping practice 2 test', level: 2},
-  {id: 3, sport: 'soccer', title: 'Soccer jumping practice 3 test', level: 3},
-  {id: 4, sport: 'soccer', title: 'Soccer jumping practice 4 test', level: 1},
-  {id: 5, sport: 'cognitive', title: 'Test Title', level: 1},
-  {id: 6, sport: 'cognitive', title: 'Test Title 2', level: 2},
-  {id: 7, sport: 'cognitive', title: 'Test Title 3', level: 3},
-  {id: 8, sport: 'cognitive', title: 'Test Title 4', level: 1},
-  {id: 9, sport: 'agility', title: 'Test Title', level: 1},
-  {id: 10, sport: 'agility', title: 'Test Title 2', level: 2},
-  {id: 11, sport: 'agility', title: 'Test Title 3', level: 3},
-  {id: 12, sport: 'agility', title: 'Test Title 4', level: 1},
-];
+import getDrillIcon from '../../utils/getDrillIcon';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const styles = StyleSheet.create({
   container: {
@@ -42,17 +28,25 @@ const styles = StyleSheet.create({
   cardGroup: {
     marginBottom: 40,
   },
+  cardGroupText: {
+    justifyContent: 'space-between',
+  },
+  viewAll: {
+    marginRight: 20,
+  },
+  cardGroupTitle: {
+    marginLeft: 10,
+    alignItems: 'center',
+  },
 });
 
-const Main = () => {
+const DrillsMain = ({navigation, route}) => {
+  const {data} = route.params;
   const [isFavorite, setIsFavorite] = useState(false);
   const stateData = useSelector(state => state.drills.data);
   const filters = useSelector(state => state.drills.filters);
   const favorites = useSelector(state => state.drills.favorites);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch({type: 'INIT_DRILLS', payload: groupBy(data, 'sport')});
-  }, [dispatch]);
 
   const onFilter = k => {
     filters.includes(k)
@@ -89,7 +83,21 @@ const Main = () => {
         ) : (
           filtersToShow.map(k => (
             <View key={k} style={styles.cardGroup}>
-              <Text style={styles.pageSubheadings}>{k}</Text>
+              <View style={[styles.row, styles.cardGroupText]}>
+                <View style={[styles.row, styles.cardGroupTitle]}>
+                  <Icon name={getDrillIcon(k)} size={20} />
+                  <Text style={styles.pageSubheadings}>{k}</Text>
+                </View>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate('View All', {
+                      drills: data.filter(d => d.sport === k),
+                    })
+                  }>
+                  <Text style={styles.viewAll}>View All</Text>
+                </Pressable>
+              </View>
+
               <ScrollView horizontal={true}>
                 {stateData[k]?.map((id, i) => (
                   <Card key={i} drill={getDrillById(id)} />
@@ -103,4 +111,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default DrillsMain;
