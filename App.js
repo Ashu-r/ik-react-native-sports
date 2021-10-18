@@ -1,14 +1,14 @@
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {Text} from 'react-native';
 import {Provider} from 'react-redux';
-import Main from './src/components/Drills/Main';
+import Drills from './src/components/Drills';
 import store from './src/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
-import TeamMain from './src/components/Teams/TeamMain';
+import TeamMain from './src/components/Teams';
 import SignUp from './src/components/Authentication/SignUp';
 import SignIn from './src/components/Authentication/SignIn';
 import UserInfo from './src/components/UserInfo';
@@ -34,8 +34,8 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         {user ? (
-          <Drawer.Navigator initialRouteName="Team">
-            <Drawer.Screen name="Skills" component={Main} />
+          <Drawer.Navigator initialRouteName="Drills">
+            <Drawer.Screen name="Drills" component={Drills} />
             <Drawer.Screen name="Team" component={TeamMain} />
             <Drawer.Screen
               name="UserInfo"

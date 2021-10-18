@@ -1,5 +1,12 @@
 import React from 'react';
-import {ImageBackground, Text, View, StyleSheet, Pressable} from 'react-native';
+import {
+  ImageBackground,
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  Image,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import CircleIndicators from './CircleIndicators';
@@ -49,9 +56,29 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginRight: 10,
   },
+  vImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 10,
+    marginRight: 20,
+  },
+  vCard: {
+    margin: 10,
+    padding: 10,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    borderRadius: 10,
+  },
+  vCardText: {
+    flex: 1,
+  },
+  vCardTitle: {
+    color: 'white',
+    fontSize: 16,
+    marginBottom: 10,
+  },
 });
 
-const Card = ({drill}) => {
+const Card = ({drill, direction = 'horizontal'}) => {
   const dispatch = useDispatch();
   const favorites = useSelector(state => state.drills.favorites);
   const isThisFavorite = favorites.includes(drill.id);
@@ -70,6 +97,36 @@ const Card = ({drill}) => {
       ? dispatch({type: 'REMOVE_FAV', payload: drill.id})
       : dispatch({type: 'ADD_FAV', payload: drill.id});
   };
+  if (direction === 'vertical')
+    return (
+      <View style={[styles.row, styles.vCard]}>
+        <Image
+          style={styles.vImage}
+          source={{
+            uri: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61',
+          }}
+        />
+        <View style={styles.vCardText}>
+          <Text style={styles.vCardTitle}>{drill.title}</Text>
+          <View style={styles.row}>
+            <Text style={styles.cartSubtitle}>{getLevelText(drill.level)}</Text>
+            <View style={[styles.row, styles.indicators]}>
+              <CircleIndicators level={drill.level} />
+            </View>
+          </View>
+        </View>
+        <View>
+          <Pressable onPress={onFavorite}>
+            <Icon
+              style={styles.starIcon}
+              name={isThisFavorite ? 'star' : 'star-outline'}
+              size={30}
+              color={isThisFavorite ? 'orange' : 'white'}
+            />
+          </Pressable>
+        </View>
+      </View>
+    );
   return (
     <View style={styles.card}>
       <ImageBackground
